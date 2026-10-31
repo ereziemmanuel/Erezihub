@@ -21,23 +21,73 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// Metadata file to track views, categories, likes
+const META_FILE = path.join(__dirname, 'metadata.json');
+function getMetadata() {
+  if (!fs.existsSync(META_FILE)) return {};
+  try { return JSON.parse(fs.readFileSync(META_FILE)); } catch (e) { return {}; }
+}
+function saveMetadata(data) {
+  fs.writeFileSync(META_FILE, JSON.stringify(data, null, 2));
+}
+
 app.post('/api/upload', upload.single('video'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No video file uploaded' });
-  res.json({ filename: req.file.filename, title: req.body.title || req.file.originalname });
+  
+  const meta = getMetadata();
+  meta[req.file.filename] = {
+    title: req.body.title || req.file.originalname,
+    category: req.body.category || 'Uncategorized',
+    views: 0,
+    likes: 0,
+    createdAt: Date.now()
+  };
+  saveMetadata(meta);
+
+  res.json({ filename: req.file.filename });
 });
 
 app.get('/api/videos', (req, res) => {
   fs.readdir(UPLOAD_DIR, (err, files) => {
     if (err) return res.status(500).json({ error: 'Failed to read media storage' });
+    const meta = getMetadata();
+    
     const videos = files
       .filter(f => f.match(/\.(mp4|webm|mov|mkv)$/i))
-      .map((file, index) => ({
-        id: index + 1,
-        filename: file,
-        title: file.replace(/^\d+-/, '').replace(/\.[^/.]+$/, '')
-      }));
+      .map((file, index) => {
+        const data = meta[file] || { title: file, category: 'Uncategorized', views: 0, likes: 0 };
+        return {
+          id: index + 1,
+          filename: file,
+          title: data.title,
+          category: data.category,
+          views: data.views || 0,
+          likes: data.likes || 0
+        };
+      });
     res.json(videos);
   });
+});
+
+app.post('/api/view/:filename', (req, res) => {
+  const meta = getMetadata();
+  const file = req.params.filename;
+  if (meta[file]) {
+    meta[file].views = (meta[file].views || 0) + 1;
+    saveMetadata(meta);
+  }
+  res.json({ success: true });
+});
+
+app.post('/api/like/:filename', (req, res) => {
+  const meta = getMetadata();
+  const file = req.params.filename;
+  if (meta[file]) {
+    meta[file].likes = (meta[file].likes || 0) + 1;
+    saveMetadata(meta);
+    return res.json({ success: true, likes: meta[file].likes });
+  }
+  res.status(404).json({ error: 'Not found' });
 });
 
 app.get('/api/stream/:filename', (req, res) => {
@@ -78,4 +128,4 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`EreziHub active on port ${PORT}`));
-        
+    
