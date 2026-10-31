@@ -33,7 +33,7 @@ function saveData(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
 
-// Ensure default admin exists
+// Default Admin Initialization
 function initAdmin() {
   const users = getData(USERS_FILE);
   if (!users['admin']) {
@@ -43,7 +43,7 @@ function initAdmin() {
 }
 initAdmin();
 
-// Register / Login
+// Registration / Login Routes
 app.post('/api/register', (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
@@ -54,7 +54,7 @@ app.post('/api/register', (req, res) => {
   users[username] = {
     password,
     role: 'user',
-    uploaderStatus: 'none' // 'none', 'pending', 'approved'
+    uploaderStatus: 'none'
   };
   saveData(USERS_FILE, users);
 
@@ -73,7 +73,7 @@ app.post('/api/login', (req, res) => {
   res.json({ success: true, username, role: user.role, uploaderStatus: user.uploaderStatus });
 });
 
-// Apply to become a creator/uploader
+// Application Workflow
 app.post('/api/apply-creator', (req, res) => {
   const { username } = req.body;
   const users = getData(USERS_FILE);
@@ -85,7 +85,7 @@ app.post('/api/apply-creator', (req, res) => {
   res.status(404).json({ error: 'User not found' });
 });
 
-// Admin: Get applications and users
+// Admin Panel APIs
 app.get('/api/admin/users', (req, res) => {
   const users = getData(USERS_FILE);
   const safeUsers = Object.keys(users).map(u => ({
@@ -96,9 +96,8 @@ app.get('/api/admin/users', (req, res) => {
   res.json(safeUsers);
 });
 
-// Admin: Approve/Reject uploader status
 app.post('/api/admin/update-status', (req, res) => {
-  const { username, status } = req.body; // 'approved' or 'rejected'
+  const { username, status } = req.body;
   const users = getData(USERS_FILE);
   if (users[username]) {
     users[username].uploaderStatus = status;
@@ -108,7 +107,7 @@ app.post('/api/admin/update-status', (req, res) => {
   res.status(404).json({ error: 'User not found' });
 });
 
-// Video Upload (Approved Creators & Admins Only)
+// Video Upload Route
 app.post('/api/upload', upload.single('video'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No video file uploaded' });
   const username = req.body.uploader || 'Anonymous';
@@ -116,7 +115,8 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
   const meta = getData(META_FILE);
   meta[req.file.filename] = {
     title: req.body.title || req.file.originalname,
-    category: req.body.category || 'Uncategorized',
+    category: req.body.category || 'Straight',
+    duration: req.body.duration || '10:00',
     tags: req.body.tags ? req.body.tags.split(',').map(t => t.trim()) : [],
     uploader: username,
     views: 0,
@@ -136,17 +136,18 @@ app.get('/api/videos', (req, res) => {
     const videos = files
       .filter(f => f.match(/\.(mp4|webm|mov|mkv)$/i))
       .map((file, index) => {
-        const data = meta[file] || { title: file, category: 'Uncategorized', uploader: 'Admin', views: 0, likes: 0, tags: [] };
+        const data = meta[file] || { title: file, category: 'Straight', uploader: 'Admin', views: 0, likes: 0, tags: [], duration: '10:00' };
         return {
           id: index + 1,
           filename: file,
           title: data.title,
           category: data.category,
+          duration: data.duration || '10:00',
           tags: data.tags || [],
           uploader: data.uploader,
           views: data.views || 0,
           likes: data.likes || 0,
-          createdAt: data.createdAt || 0
+          createdAt: data.createdAt || Date.now()
         };
       });
     res.json(videos);
@@ -212,3 +213,4 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`EreziHub active on port ${PORT}`));
+                             
