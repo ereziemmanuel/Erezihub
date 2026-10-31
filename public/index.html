@@ -3,146 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EreziHub - Professional Platform</title>
+  <title>EreziHub - Free Porn & Premium HD Adult Videos</title>
   <style>
     :root {
-      --bg-color: #0d0d0d;
-      --card-bg: #161616;
-      --text-color: #ffffff;
-      --text-sub: #aaaaaa;
-      --border-color: #222222;
-      --input-bg: #080808;
+      --bg-main: #0b0b0b;
+      --bg-card: #1b1b1b;
+      --bg-header: #121212;
+      --accent: #ff9900;
+      --text-main: #ffffff;
+      --text-muted: #888888;
+      --border-color: #282828;
+      --input-bg: #151515;
     }
+
     body.light-mode {
-      --bg-color: #f4f4f5;
-      --card-bg: #ffffff;
-      --text-color: #18181b;
-      --text-sub: #71717a;
-      --border-color: #e4e4e7;
-      --input-bg: #f4f4f5;
+      --bg-main: #f0f2f5;
+      --bg-card: #ffffff;
+      --bg-header: #ffffff;
+      --accent: #ff9900;
+      --text-main: #111111;
+      --text-muted: #65676b;
+      --border-color: #dddddd;
+      --input-bg: #e4e6eb;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background-color: var(--bg-main); color: var(--text-main); font-size: 14px; }
+
+    /* Age Verification Modal */
+    #ageGateModal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000000; z-index: 99999; display: flex; align-items: center; justify-content: center; text-align: center; }
+    .age-box { background: #161616; padding: 40px; border-radius: 8px; border: 1px solid #ff9900; max-width: 480px; width: 90%; }
+    .age-box h1 { font-size: 28px; margin-bottom: 16px; font-weight: 900; }
+    .age-box p { color: #aaa; margin-bottom: 24px; line-height: 1.5; font-size: 13px; }
+
+    /* Header Navigation */
+    header { background: var(--bg-header); border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 100; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; max-width: 1400px; margin: 0 auto; gap: 12px; flex-wrap: wrap; }
     
-    header { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 12px 24px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
-    .logo { font-weight: 900; font-size: 22px; text-decoration: none; display: flex; align-items: center; }
-    .logo-black { background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; }
-    .logo-orange { background: #ff9900; color: #000; padding: 4px 8px; border-radius: 4px; margin-left: 2px; }
+    .logo { text-decoration: none; font-size: 24px; font-weight: 900; display: flex; align-items: center; }
+    .logo .blk { background: #000000; color: #ffffff; padding: 3px 8px; border-radius: 3px; }
+    .logo .org { background: var(--accent); color: #000000; padding: 3px 8px; border-radius: 3px; margin-left: 2px; }
 
-    .search-bar { display: flex; max-width: 400px; width: 100%; }
-    .search-bar input { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 12px; border-radius: 4px 0 0 4px; outline: none; }
-    .search-bar button { background: var(--border-color); border: none; color: var(--text-color); padding: 0 12px; border-radius: 0 4px 4px 0; cursor: pointer; }
+    .search-box { display: flex; flex: 1; max-width: 500px; }
+    .search-box input { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 14px; border-radius: 3px 0 0 3px; outline: none; }
+    .search-box button { background: var(--accent); border: none; color: #000000; padding: 0 16px; font-weight: bold; cursor: pointer; border-radius: 0 3px 3px 0; }
 
-    .nav-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .btn { padding: 8px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; border: none; font-size: 13px; }
-    .btn-orange { background: #ff9900; color: #000; }
-    .btn-secondary { background: var(--border-color); color: var(--text-color); }
+    .nav-btns { display: flex; align-items: center; gap: 10px; }
+    .btn { padding: 8px 14px; border-radius: 3px; font-weight: bold; cursor: pointer; border: none; font-size: 13px; text-decoration: none; display: inline-block; }
+    .btn-orange { background: var(--accent); color: #000000; }
+    .btn-dark { background: var(--border-color); color: var(--text-main); }
+    .btn-orange:hover { opacity: 0.9; }
 
+    /* Secondary Nav Bar */
+    .sub-nav { background: #000000; border-bottom: 1px solid var(--border-color); }
+    .sub-nav-inner { max-width: 1400px; margin: 0 auto; display: flex; gap: 18px; padding: 10px 20px; overflow-x: auto; }
+    .sub-nav a { color: #cccccc; text-decoration: none; font-size: 13px; font-weight: bold; white-space: nowrap; }
+    .sub-nav a:hover, .sub-nav a.active { color: var(--accent); }
+
+    /* Main Content Layout */
     .container { max-width: 1400px; margin: 20px auto; padding: 0 16px; }
 
-    /* Controls Bar (Sort & Filter) */
-    .filter-sort-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-    .sort-select { background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; outline: none; }
+    .creator-banner { background: var(--bg-card); border: 1px solid var(--accent); padding: 16px; border-radius: 4px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
 
-    /* Creator Application Banner */
-    .creator-banner { background: linear-gradient(135deg, #222, #111); border: 1px solid #ff9900; padding: 14px 20px; border-radius: 8px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .upload-panel { background: var(--bg-card); padding: 20px; border-radius: 4px; border: 1px solid var(--border-color); margin-bottom: 24px; display: none; flex-wrap: wrap; gap: 12px; }
+    .upload-panel input, .upload-panel select { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 3px; flex: 1; min-width: 200px; outline: none; }
+
+    .sort-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+    .sort-header h2 { font-size: 18px; text-transform: uppercase; border-left: 4px solid var(--accent); padding-left: 8px; }
+
+    /* Video Player */
+    .player-section { background: #000000; border-radius: 4px; overflow: hidden; margin-bottom: 24px; display: none; border: 1px solid var(--border-color); }
+    video { width: 100%; max-height: 550px; display: block; }
+    .player-info { padding: 16px; background: var(--bg-card); }
+    .tag-pill { display: inline-block; background: var(--border-color); color: var(--accent); padding: 3px 8px; border-radius: 3px; font-size: 11px; margin-right: 6px; text-decoration: none; }
+
+    /* Pornhub Video Grid Style */
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .video-card { background: var(--bg-card); border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.15s; }
+    .video-card:hover { transform: translateY(-3px); border-color: var(--accent); }
     
-    /* Upload Panel */
-    .upload-panel { background: var(--card-bg); padding: 16px; border-radius: 8px; margin-bottom: 24px; border: 1px solid var(--border-color); display: none; flex-wrap: wrap; gap: 10px; }
-    .upload-panel input, .upload-panel select { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 10px; border-radius: 4px; flex: 1; min-width: 180px; }
+    .thumbnail-box { height: 140px; background: #000000; position: relative; display: flex; align-items: center; justify-content: center; }
+    .play-icon { font-size: 32px; color: var(--accent); opacity: 0.8; }
+    .duration-badge { position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.85); color: #fff; padding: 2px 5px; font-size: 11px; font-weight: bold; border-radius: 2px; }
 
-    .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px; }
-    .cat-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-    .cat-btn.active, .cat-btn:hover { background: #ff9900; color: #000; font-weight: bold; border-color: #ff9900; }
-
-    .player-box { background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 24px; display: none; border: 1px solid var(--border-color); }
-    video { width: 100%; max-height: 500px; display: block; }
-    .player-details { padding: 16px; background: var(--card-bg); }
-
-    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-    .video-card { background: var(--card-bg); border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.2s; }
-    .video-card:hover { transform: translateY(-3px); border-color: #ff9900; }
-    .thumb-placeholder { height: 130px; background: var(--input-bg); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text-sub); }
-    .video-info { padding: 10px; }
-    .video-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .video-sub { font-size: 12px; color: var(--text-sub); display: flex; justify-content: space-between; }
-    .tag-pill { display: inline-block; background: var(--border-color); font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 4px; color: var(--text-sub); }
+    .card-details { padding: 10px; }
+    .card-title { font-size: 13px; font-weight: bold; margin-bottom: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-main); }
+    .card-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); }
 
     /* Modals */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
-    .modal-content { background: var(--card-bg); padding: 24px; border-radius: 8px; width: 100%; max-width: 400px; border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
-    .modal-content h3 { margin-bottom: 16px; }
-    .modal-content input, .modal-content select { width: 100%; padding: 10px; margin-bottom: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 4px; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
+    .modal-body { background: var(--bg-card); padding: 24px; border-radius: 4px; width: 90%; max-width: 400px; border: 1px solid var(--border-color); }
+    .modal-body input { width: 100%; padding: 10px; margin-bottom: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 3px; }
   </style>
 </head>
 <body>
 
+  <!-- Age Verification Gateway -->
+  <div id="ageGateModal">
+    <div class="age-box">
+      <div class="logo" style="justify-content: center; margin-bottom: 20px;">
+        <span class="blk">Erezi</span><span class="org">Hub</span>
+      </div>
+      <h1>THIS WEBSITE CONTAINS AGE-RESTRICTED CONTENT</h1>
+      <p>You must be at least 18 years old or the age of majority in your jurisdiction to enter. By clicking enter, you confirm that you agree to our terms.</p>
+      <button class="btn btn-orange" style="width: 100%; padding: 14px; font-size: 16px;" onclick="acceptAgeGate()">I AM 18 OR OLDER - ENTER</button>
+      <button class="btn btn-dark" style="width: 100%; padding: 10px; margin-top: 10px;" onclick="window.location.href='https://google.com'">I AM UNDER 18 - EXIT</button>
+    </div>
+  </div>
+
+  <!-- Header -->
   <header>
-    <a href="#" class="logo"><span class="logo-black">Erezi</span><span class="logo-orange">Hub</span></a>
-    
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search videos..." oninput="applyFilters()" />
-      <button>🔍</button>
+    <div class="header-top">
+      <a href="#" class="logo"><span class="blk">Erezi</span><span class="org">Hub</span></a>
+      
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search 1,000+ videos..." oninput="applyFilters()" />
+        <button onclick="applyFilters()">Search</button>
+      </div>
+
+      <div class="nav-btns">
+        <button class="btn btn-dark" onclick="toggleTheme()" id="themeBtn">🌓 Theme</button>
+        <div id="authButtons"></div>
+      </div>
     </div>
 
-    <div class="nav-actions">
-      <button class="btn btn-secondary" onclick="toggleTheme()">🌓</button>
-      <div id="userAuthControls"></div>
+    <div class="sub-nav">
+      <div class="sub-nav-inner">
+        <a href="#" class="active" onclick="filterCategory('All', this)">HOME</a>
+        <a href="#" onclick="filterCategory('Straight', this)">STRAIGHT</a>
+        <a href="#" onclick="filterCategory('Trending', this)">TRENDING</a>
+        <a href="#" onclick="filterCategory('Entertainment', this)">ENTERTAINMENT</a>
+        <a href="#" onclick="filterCategory('Music', this)">MUSIC</a>
+        <a href="#" onclick="filterCategory('Vlogs', this)">VLOGS</a>
+      </div>
     </div>
   </header>
 
   <div class="container">
-    <!-- Creator Status Banner (Shown to normal users) -->
-    <div id="creatorBannerContainer"></div>
+    <!-- Creator Status Callout -->
+    <div id="bannerSection"></div>
 
-    <!-- Creator Upload Panel (Shown only to approved uploaders & admins) -->
+    <!-- Creator Upload Form -->
     <form class="upload-panel" id="uploadForm">
-      <h4 style="width:100%; margin-bottom: 4px;">📹 Creator Upload Suite</h4>
+      <h3 style="width:100%; color:var(--accent);">📹 Creator Upload Studio</h3>
       <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/mkv" required />
       <input type="text" id="videoTitleInput" placeholder="Video Title..." required />
-      <input type="text" id="videoTagsInput" placeholder="Tags (comma separated, e.g. funny, action)" />
+      <input type="text" id="videoTagsInput" placeholder="Tags (comma-separated)" />
+      <input type="text" id="videoDurationInput" placeholder="Duration (e.g. 12:45)" />
       <select id="videoCategoryInput">
+        <option value="Straight">Straight</option>
         <option value="Trending">Trending</option>
         <option value="Entertainment">Entertainment</option>
         <option value="Music">Music</option>
         <option value="Vlogs">Vlogs</option>
-        <option value="Sports">Sports</option>
       </select>
       <button type="submit" class="btn btn-orange" id="uploadBtn">Publish Video</button>
     </form>
 
-    <!-- Admin Panel Modal/Trigger -->
-    <div id="adminTriggerContainer"></div>
+    <div id="adminControlArea"></div>
 
-    <!-- Video Player Box -->
-    <div class="player-box" id="playerContainer">
+    <!-- Active Video Player -->
+    <div class="player-section" id="playerContainer">
       <video id="mainPlayer" controls autoplay></video>
-      <div class="player-details">
-        <h2 id="activeVideoTitle" style="margin-bottom:6px;"></h2>
-        <div id="activeVideoTags" style="margin-bottom:8px;"></div>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-          <span id="activeVideoStats" style="color:var(--text-sub); font-size:13px;">0 views</span>
-          <button class="btn btn-secondary" onclick="likeCurrentVideo()">👍 Like (<span id="likeCount">0</span>)</button>
+      <div class="player-info">
+        <h2 id="activeVideoTitle" style="margin-bottom:8px;"></h2>
+        <div id="activeVideoTags" style="margin-bottom:12px;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span id="activeVideoStats" style="color:var(--text-muted);">0 views</span>
+          <button class="btn btn-dark" onclick="likeCurrentVideo()">👍 Like (<span id="likeCount">0</span>)</button>
         </div>
       </div>
     </div>
 
-    <!-- Filter & Sort Bar -->
-    <div class="filter-sort-bar">
-      <div class="categories" id="categoryList" style="margin-bottom:0; flex:1;">
-        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
-        <button class="cat-btn" onclick="filterCategory('Trending', this)">Trending</button>
-        <button class="cat-btn" onclick="filterCategory('Entertainment', this)">Entertainment</button>
-        <button class="cat-btn" onclick="filterCategory('Music', this)">Music</button>
-        <button class="cat-btn" onclick="filterCategory('Vlogs', this)">Vlogs</button>
-        <button class="cat-btn" onclick="filterCategory('Sports', this)">Sports</button>
+    <!-- Sort Bar & Header -->
+    <div class="sort-header">
+      <h2 id="currentCategoryHeading">All Videos</h2>
+      <div>
+        <label style="color:var(--text-muted); font-size:12px;">Sort By: </label>
+        <select id="sortSelect" onchange="applyFilters()" style="background:var(--bg-card); color:var(--text-main); border:1px solid var(--border-color); padding:4px 8px; border-radius:3px;">
+          <option value="recent">Most Recent</option>
+          <option value="views">Most Viewed</option>
+          <option value="likes">Most Liked</option>
+        </select>
       </div>
-      <select class="sort-select" id="sortSelect" onchange="applyFilters()">
-        <option value="recent">Most Recent</option>
-        <option value="views">Most Viewed</option>
-        <option value="likes">Most Liked</option>
-      </select>
     </div>
 
     <!-- Video Grid -->
@@ -150,33 +193,33 @@
   </div>
 
   <!-- Login Modal -->
-  <div class="modal" id="loginModal">
-    <div class="modal-content">
-      <h3>Login to EreziHub</h3>
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-body">
+      <h2 style="margin-bottom:16px;">Log In to EreziHub</h2>
       <input type="text" id="loginUser" placeholder="Username" />
       <input type="password" id="loginPass" placeholder="Password" />
-      <button class="btn btn-orange" style="width:100%; margin-bottom:8px;" onclick="handleLogin()">Login</button>
-      <button class="btn btn-secondary" style="width:100%;" onclick="closeModal('loginModal')">Cancel</button>
+      <button class="btn btn-orange" style="width:100%; margin-bottom:8px;" onclick="handleLogin()">Log In</button>
+      <button class="btn btn-dark" style="width:100%;" onclick="closeModal('loginModal')">Cancel</button>
     </div>
   </div>
 
-  <!-- Register Modal -->
-  <div class="modal" id="registerModal">
-    <div class="modal-content">
-      <h3>Create Account</h3>
+  <!-- Sign Up Modal -->
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal-body">
+      <h2 style="margin-bottom:16px;">Create Account</h2>
       <input type="text" id="regUser" placeholder="Username" />
       <input type="password" id="regPass" placeholder="Password" />
       <button class="btn btn-orange" style="width:100%; margin-bottom:8px;" onclick="handleRegister()">Register</button>
-      <button class="btn btn-secondary" style="width:100%;" onclick="closeModal('registerModal')">Cancel</button>
+      <button class="btn btn-dark" style="width:100%;" onclick="closeModal('registerModal')">Cancel</button>
     </div>
   </div>
 
-  <!-- Admin Users Review Modal -->
-  <div class="modal" id="adminModal">
-    <div class="modal-content" style="max-width: 600px;">
-      <h3>Admin Dashboard: Creator Applications</h3>
-      <div id="adminUserList" style="margin-bottom: 16px; max-height: 300px; overflow-y:auto;"></div>
-      <button class="btn btn-secondary" style="width:100%;" onclick="closeModal('adminModal')">Close Dashboard</button>
+  <!-- Admin Dashboard Modal -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-body" style="max-width:600px;">
+      <h2 style="margin-bottom:16px;">Admin: Manage Applications</h2>
+      <div id="adminUserList" style="max-height:300px; overflow-y:auto; margin-bottom:16px;"></div>
+      <button class="btn btn-dark" style="width:100%;" onclick="closeModal('adminModal')">Close</button>
     </div>
   </div>
 
@@ -186,60 +229,75 @@
     let currentCategory = 'All';
     let currentFilename = '';
 
-    if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+    // Check Age Gate
+    if (localStorage.getItem('ageVerified') === 'true') {
+      document.getElementById('ageGateModal').style.display = 'none';
+    }
+
+    function acceptAgeGate() {
+      localStorage.setItem('ageVerified', 'true');
+      document.getElementById('ageGateModal').style.display = 'none';
+    }
+
+    // Dynamic Light / Dark Mode Toggle
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+    }
+
     function toggleTheme() {
       document.body.classList.toggle('light-mode');
-      localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+      const isLight = document.body.classList.contains('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    function updateUI() {
-      const authControls = document.getElementById('userAuthControls');
+    function updateAuthUI() {
+      const authDiv = document.getElementById('authButtons');
       const uploadPanel = document.getElementById('uploadForm');
-      const bannerContainer = document.getElementById('creatorBannerContainer');
-      const adminTrigger = document.getElementById('adminTriggerContainer');
+      const bannerDiv = document.getElementById('bannerSection');
+      const adminDiv = document.getElementById('adminControlArea');
 
       if (currentUser) {
-        authControls.innerHTML = `
-          <span style="font-size:12px; font-weight:bold;">${currentUser.username}</span>
-          <button class="btn btn-secondary" onclick="logout()">Logout</button>
+        authDiv.innerHTML = `
+          <span style="font-weight:bold; font-size:12px;">${currentUser.username}</span>
+          <button class="btn btn-dark" onclick="logout()">Log Out</button>
         `;
 
         if (currentUser.role === 'admin') {
           uploadPanel.style.display = 'flex';
-          bannerContainer.innerHTML = '';
-          adminTrigger.innerHTML = `<button class="btn btn-orange" style="margin-bottom:20px; width:100%;" onclick="openAdminDashboard()">⚙️ Manage Creator Applications (Admin)</button>`;
+          bannerDiv.innerHTML = '';
+          adminDiv.innerHTML = `<button class="btn btn-orange" style="width:100%; margin-bottom:20px;" onclick="openAdminDashboard()">⚙️ Open Admin Creator Dashboard</button>`;
         } else if (currentUser.uploaderStatus === 'approved') {
           uploadPanel.style.display = 'flex';
-          bannerContainer.innerHTML = `<div class="creator-banner"><span>🎉 You are an approved Creator! You can upload videos.</span></div>`;
-          adminTrigger.innerHTML = '';
+          bannerDiv.innerHTML = `<div class="creator-banner"><span>🎉 You are an approved Creator! Upload videos directly below.</span></div>`;
+          adminDiv.innerHTML = '';
         } else if (currentUser.uploaderStatus === 'pending') {
           uploadPanel.style.display = 'none';
-          bannerContainer.innerHTML = `<div class="creator-banner"><span>⏳ Your application to become a creator is pending admin approval.</span></div>`;
-          adminTrigger.innerHTML = '';
+          bannerDiv.innerHTML = `<div class="creator-banner"><span>⏳ Your application to become a creator is pending review.</span></div>`;
+          adminDiv.innerHTML = '';
         } else {
           uploadPanel.style.display = 'none';
-          bannerContainer.innerHTML = `
+          bannerDiv.innerHTML = `
             <div class="creator-banner">
-              <span>Want to upload videos to EreziHub like a creator?</span>
+              <span>Want to upload videos to EreziHub?</span>
               <button class="btn btn-orange" onclick="applyForCreator()">Apply for Uploader Status</button>
             </div>`;
-          adminTrigger.innerHTML = '';
+          adminDiv.innerHTML = '';
         }
       } else {
-        authControls.innerHTML = `
-          <button class="btn btn-orange" onclick="openModal('loginModal')">Login</button>
-          <button class="btn btn-secondary" onclick="openModal('registerModal')">Sign Up</button>
+        authDiv.innerHTML = `
+          <button class="btn btn-orange" onclick="openModal('loginModal')">Log In</button>
+          <button class="btn btn-dark" onclick="openModal('registerModal')">Sign Up</button>
         `;
         uploadPanel.style.display = 'none';
-        bannerContainer.innerHTML = `
+        bannerDiv.innerHTML = `
           <div class="creator-banner">
-            <span>Log in and apply to become an official creator/uploader!</span>
-            <button class="btn btn-orange" onclick="openModal('loginModal')">Login to Apply</button>
+            <span>Sign in to apply to become an approved creator and upload videos!</span>
+            <button class="btn btn-orange" onclick="openModal('loginModal')">Log In to Apply</button>
           </div>`;
-        adminTrigger.innerHTML = '';
+        adminDiv.innerHTML = '';
       }
     }
 
@@ -255,7 +313,7 @@
         currentUser = data;
         localStorage.setItem('ereziUser', JSON.stringify(currentUser));
         closeModal('registerModal');
-        updateUI();
+        updateAuthUI();
       } else { alert(data.error); }
     }
 
@@ -271,14 +329,14 @@
         currentUser = data;
         localStorage.setItem('ereziUser', JSON.stringify(currentUser));
         closeModal('loginModal');
-        updateUI();
+        updateAuthUI();
       } else { alert(data.error); }
     }
 
     function logout() {
       currentUser = null;
       localStorage.removeItem('ereziUser');
-      updateUI();
+      updateAuthUI();
     }
 
     async function applyForCreator() {
@@ -291,8 +349,8 @@
       if (data.success) {
         currentUser.uploaderStatus = 'pending';
         localStorage.setItem('ereziUser', JSON.stringify(currentUser));
-        updateUI();
-        alert('Application submitted successfully!');
+        updateAuthUI();
+        alert('Application submitted!');
       }
     }
 
@@ -304,13 +362,11 @@
       
       listDiv.innerHTML = users.map(u => `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-color);">
-          <div>
-            <strong>${u.username}</strong> (${u.role}) — Status: <em>${u.uploaderStatus}</em>
-          </div>
+          <div><strong>${u.username}</strong> (${u.uploaderStatus})</div>
           <div>
             ${u.uploaderStatus === 'pending' ? `
               <button class="btn btn-orange" onclick="updateUserStatus('${u.username}', 'approved')">Approve</button>
-              <button class="btn btn-secondary" onclick="updateUserStatus('${u.username}', 'rejected')">Reject</button>
+              <button class="btn btn-dark" onclick="updateUserStatus('${u.username}', 'rejected')">Reject</button>
             ` : `<span>${u.uploaderStatus}</span>`}
           </div>
         </div>
@@ -334,16 +390,18 @@
     function renderVideos(videos) {
       const grid = document.getElementById('videoGrid');
       if (videos.length === 0) {
-        grid.innerHTML = '<p style="color:var(--text-sub);">No videos found.</p>';
+        grid.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">No videos available.</p>';
         return;
       }
       grid.innerHTML = videos.map(v => `
         <div class="video-card" onclick="playVideo('${v.filename}', '${v.title.replace(/'/g, "\\'")}', ${v.views}, ${v.likes}, '${encodeURIComponent(JSON.stringify(v.tags))}')">
-          <div class="thumb-placeholder">▶</div>
-          <div class="video-info">
-            <div class="video-title">${v.title}</div>
-            <div style="margin: 4px 0;">${v.tags.map(t => `<span class="tag-pill">#${t}</span>`).join('')}</div>
-            <div class="video-sub">
+          <div class="thumbnail-box">
+            <span class="play-icon">▶</span>
+            <span class="duration-badge">${v.duration}</span>
+          </div>
+          <div class="card-details">
+            <div class="card-title">${v.title}</div>
+            <div class="card-meta">
               <span>${v.views} views</span>
               <span>By ${v.uploader}</span>
             </div>
@@ -352,59 +410,4 @@
       `).join('');
     }
 
-    async function playVideo(filename, title, views, likes, tagsEncoded) {
-      currentFilename = filename;
-      const tags = JSON.parse(decodeURIComponent(tagsEncoded));
-      document.getElementById('playerContainer').style.display = 'block';
-      document.getElementById('activeVideoTitle').innerText = title;
-      document.getElementById('activeVideoTags').innerHTML = tags.map(t => `<span class="tag-pill">#${t}</span>`).join('');
-      document.getElementById('activeVideoStats').innerText = `${views + 1} views`;
-      document.getElementById('likeCount').innerText = likes;
-      document.getElementById('mainPlayer').src = `/api/stream/${encodeURIComponent(filename)}`;
-      
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      await fetch(`/api/view/${filename}`, { method: 'POST' });
-    }
-
-    async function likeCurrentVideo() {
-      if (!currentFilename) return;
-      const res = await fetch(`/api/like/${currentFilename}`, { method: 'POST' });
-      const data = await res.json();
-      if (data.success) document.getElementById('likeCount').innerText = data.likes;
-    }
-
-    function filterCategory(cat, btn) {
-      currentCategory = cat;
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      applyFilters();
-    }
-
-    function applyFilters() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const sortBy = document.getElementById('sortSelect').value;
-
-      let filtered = allVideos.filter(v => {
-        const matchesCat = currentCategory === 'All' || v.category === currentCategory;
-        const matchesQuery = v.title.toLowerCase().includes(query) || v.tags.some(t => t.toLowerCase().includes(query));
-        return matchesCat && matchesQuery;
-      });
-
-      if (sortBy === 'recent') {
-        filtered.sort((a, b) => b.createdAt - a.createdAt);
-      } else if (sortBy === 'views') {
-        filtered.sort((a, b) => b.views - a.views);
-      } else if (sortBy === 'likes') {
-        filtered.sort((a, b) => b.likes - a.likes);
-      }
-
-      renderVideos(filtered);
-    }
-
-    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-  Videos();
-  </script>
-</body>
-    </html>
-    
+    async func
