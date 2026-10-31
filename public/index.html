@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EreziHub - Professional Streaming</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #0d0d0d; color: #fff; }
+    header { display: flex; justify-content: space-between; align-items: center; background: #161616; padding: 12px 24px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+    .logo { font-weight: 900; font-size: 22px; text-decoration: none; display: flex; align-items: center; }
+    .logo-black { background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; }
+    .logo-orange { background: #ff9900; color: #000; padding: 4px 8px; border-radius: 4px; margin-left: 2px; }
+    
+    .search-bar { display: flex; max-width: 500px; width: 100%; margin: 0 20px; }
+    .search-bar input { width: 100%; background: #080808; border: 1px solid #333; color: #fff; padding: 10px 14px; border-radius: 4px 0 0 4px; outline: none; font-size: 14px; }
+    .search-bar button { background: #222; border: 1px solid #333; border-left: none; color: #aaa; padding: 0 16px; border-radius: 0 4px 4px 0; cursor: pointer; }
+    
+    .container { max-width: 1400px; margin: 20px auto; padding: 0 16px; }
+    
+    .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 24px; }
+    .cat-btn { background: #212121; border: none; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .cat-btn.active, .cat-btn:hover { background: #ff9900; color: #000; font-weight: bold; }
+
+    .upload-panel { background: #161616; padding: 16px; border-radius: 8px; margin-bottom: 24px; display: flex; gap: 10px; flex-wrap: wrap; border: 1px solid #222; }
+    .upload-panel input, .upload-panel select { background: #080808; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; flex: 1; min-width: 200px; outline: none; }
+    .upload-panel button { background: #ff9900; color: #000; font-weight: bold; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; }
+
+    .main-layout { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    @media(min-width: 1024px) {
+      .main-layout { grid-template-columns: 1fr 360px; }
+    }
+
+    .player-box { background: #000; border-radius: 8px; overflow: hidden; border: 1px solid #222; }
+    video { width: 100%; max-height: 550px; background: #000; display: block; }
+    .player-details { padding: 16px; background: #161616; border-top: 1px solid #222; }
+    .player-details h2 { font-size: 18px; margin-bottom: 8px; }
+    .player-meta-row { display: flex; justify-content: space-between; align-items: center; color: #aaa; font-size: 13px; }
+    .action-btns button { background: #262626; border: none; color: #fff; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .action-btns button:hover { background: #ff9900; color: #000; }
+
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .video-card { background: #161616; border-radius: 6px; overflow: hidden; border: 1px solid #222; cursor: pointer; transition: transform 0.2s; }
+    .video-card:hover { transform: translateY(-3px); border-color: #ff9900; }
+    .thumb-placeholder { height: 140px; background: #080808; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #444; border-bottom: 1px solid #222; }
+    .video-info { padding: 10px; }
+    .video-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .video-sub { font-size: 12px; color: #888; display: flex; justify-content: space-between; }
+    
+    h3 { font-size: 16px; margin-bottom: 12px; border-left: 4px solid #ff9900; padding-left: 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo"><span class="logo-black">Erezi</span><span class="logo-orange">Hub</span></a>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search videos..." oninput="filterVideos()" />
+      <button>🔍</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Upload Section -->
+    <form class="upload-panel" id="uploadForm">
+      <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/mkv" required />
+      <input type="text" id="videoTitleInput" placeholder="Video Title..." required />
+      <select id="videoCategoryInput">
+        <option value="Trending">Trending</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Music">Music</option>
+        <option value="Vlogs">Vlogs</option>
+        <option value="Sports">Sports</option>
+      </select>
+      <button type="submit" id="uploadBtn">Upload Video</button>
+    </form>
+
+    <div class="main-layout">
+      <!-- Left Column: Player + Feed -->
+      <div>
+        <div class="player-box" id="playerContainer" style="display:none;">
+          <video id="mainPlayer" controls autoplay></video>
+          <div class="player-details">
+            <h2 id="activeVideoTitle"></h2>
+            <div class="player-meta-row">
+              <span id="activeVideoStats">0 views</span>
+              <div class="action-btns">
+                <button onclick="likeCurrentVideo()">👍 Like (<span id="likeCount">0</span>)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <h3>Categories</h3>
+          <div class="categories" id="categoryList">
+            <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
+            <button class="cat-btn" onclick="filterCategory('Trending', this)">Trending</button>
+            <button class="cat-btn" onclick="filterCategory('Entertainment', this)">Entertainment</button>
+            <button class="cat-btn" onclick="filterCategory('Music', this)">Music</button>
+            <button class="cat-btn" onclick="filterCategory('Vlogs', this)">Vlogs</button>
+            <button class="cat-btn" onclick="filterCategory('Sports', this)">Sports</button>
+          </div>
+
+          <h3>Library</h3>
+          <div class="video-grid" id="videoGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allVideos = [];
+    let currentCategory = 'All';
+    let currentFilename = '';
+
+    async function loadVideos() {
+      const res = await fetch('/api/videos');
+      allVideos = await res.json();
+      renderVideos(allVideos);
+    }
+
+    function renderVideos(videos) {
+      const grid = document.getElementById('videoGrid');
+      if (videos.length === 0) {
+        grid.innerHTML = '<p style="color:#666; grid-column: 1/-1;">No videos found.</p>';
+        return;
+      }
+      grid.innerHTML = videos.map(v => `
+        <div class="video-card" onclick="playVideo('${v.filename}', '${v.title.replace(/'/g, "\\'")}', ${v.views}, ${v.likes})">
+          <div class="thumb-placeholder">▶</div>
+          <div class="video-info">
+            <div class="video-title">${v.title}</div>
+            <div class="video-sub">
+              <span>${v.views} views</span>
+              <span>${v.category}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function playVideo(filename, title, views, likes) {
+      currentFilename = filename;
+      document.getElementById('playerContainer').style.display = 'block';
+      document.getElementById('activeVideoTitle').innerText = title;
+      document.getElementById('activeVideoStats').innerText = `${views + 1} views`;
+      document.getElementById('likeCount').innerText = likes;
+      document.getElementById('mainPlayer').src = `/api/stream/${encodeURIComponent(filename)}`;
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      await fetch(`/api/view/${filename}`, { method: 'POST' });
+    }
+
+    async function likeCurrentVideo() {
+      if (!currentFilename) return;
+      const res = await fetch(`/api/like/${currentFilename}`, { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('likeCount').innerText = data.likes;
+      }
+    }
+
+    function filterCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    }
+
+    function filterVideos() {
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = allVideos.filter(v => {
+        const matchesCat = currentCategory === 'All' || v.category === currentCategory;
+        const matchesQuery = v.title.toLowerCase().includes(query);
+        return matchesCat && matchesQuery;
+      });
+      renderVideos(filtered);
+    }
+
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = document.getElementById('videoFileInput').files[0];
+      const title = document.getElementById('videoTitleInput').value;
+      const category = document.getElementById('videoCategoryInput').value;
+      
+      const formData = new FormData();
+      formData.append('video', file);
+      formData.append('title', title);
+      formData.append('category', category);
+
+      const btn = document.getElementById('uploadBtn');
+      btn.innerText = 'Uploading...';
+      btn.disabled = true;
+
+      await fetch('/api/upload', { method: 'POST', body: formData });
+      
+      document.getElementById('videoTitleInput').value = '';
+      document.getElementById('videoFileInput').value = '';
+      btn.innerText = 'Upload Video';
+      btn.disabled = false;
+      
+      loadVideos();
+    });
+
+    loadVideos();
+  </script>
+</body>
+    </html>
+    
