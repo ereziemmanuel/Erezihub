@@ -3,67 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EreziHub - Professional Streaming</title>
+  <title>EreziHub - Professional Platform</title>
   <style>
+    :root {
+      --bg-color: #0d0d0d;
+      --card-bg: #161616;
+      --text-color: #ffffff;
+      --text-sub: #aaaaaa;
+      --border-color: #222222;
+      --input-bg: #080808;
+    }
+    body.light-mode {
+      --bg-color: #f4f4f5;
+      --card-bg: #ffffff;
+      --text-color: #18181b;
+      --text-sub: #71717a;
+      --border-color: #e4e4e7;
+      --input-bg: #f4f4f5;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #0d0d0d; color: #fff; }
-    header { display: flex; justify-content: space-between; align-items: center; background: #161616; padding: 12px 24px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+    body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s; }
+    
+    header { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 12px 24px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
     .logo { font-weight: 900; font-size: 22px; text-decoration: none; display: flex; align-items: center; }
     .logo-black { background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; }
     .logo-orange { background: #ff9900; color: #000; padding: 4px 8px; border-radius: 4px; margin-left: 2px; }
-    
-    .search-bar { display: flex; max-width: 500px; width: 100%; margin: 0 20px; }
-    .search-bar input { width: 100%; background: #080808; border: 1px solid #333; color: #fff; padding: 10px 14px; border-radius: 4px 0 0 4px; outline: none; font-size: 14px; }
-    .search-bar button { background: #222; border: 1px solid #333; border-left: none; color: #aaa; padding: 0 16px; border-radius: 0 4px 4px 0; cursor: pointer; }
-    
+
+    .search-bar { display: flex; max-width: 400px; width: 100%; }
+    .search-bar input { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 12px; border-radius: 4px 0 0 4px; outline: none; }
+    .search-bar button { background: var(--border-color); border: none; color: var(--text-color); padding: 0 12px; border-radius: 0 4px 4px 0; cursor: pointer; }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .btn { padding: 8px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; border: none; font-size: 13px; }
+    .btn-orange { background: #ff9900; color: #000; }
+    .btn-secondary { background: var(--border-color); color: var(--text-color); }
+
     .container { max-width: 1400px; margin: 20px auto; padding: 0 16px; }
+
+    /* Controls Bar (Sort & Filter) */
+    .filter-sort-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .sort-select { background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; outline: none; }
+
+    /* Creator Application Banner */
+    .creator-banner { background: linear-gradient(135deg, #222, #111); border: 1px solid #ff9900; padding: 14px 20px; border-radius: 8px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
     
-    .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 24px; }
-    .cat-btn { background: #212121; border: none; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-    .cat-btn.active, .cat-btn:hover { background: #ff9900; color: #000; font-weight: bold; }
+    /* Upload Panel */
+    .upload-panel { background: var(--card-bg); padding: 16px; border-radius: 8px; margin-bottom: 24px; border: 1px solid var(--border-color); display: none; flex-wrap: wrap; gap: 10px; }
+    .upload-panel input, .upload-panel select { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 10px; border-radius: 4px; flex: 1; min-width: 180px; }
 
-    .upload-panel { background: #161616; padding: 16px; border-radius: 8px; margin-bottom: 24px; display: flex; gap: 10px; flex-wrap: wrap; border: 1px solid #222; }
-    .upload-panel input, .upload-panel select { background: #080808; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; flex: 1; min-width: 200px; outline: none; }
-    .upload-panel button { background: #ff9900; color: #000; font-weight: bold; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; }
+    .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px; }
+    .cat-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .cat-btn.active, .cat-btn:hover { background: #ff9900; color: #000; font-weight: bold; border-color: #ff9900; }
 
-    .main-layout { display: grid; grid-template-columns: 1fr; gap: 24px; }
-    @media(min-width: 1024px) {
-      .main-layout { grid-template-columns: 1fr 360px; }
-    }
+    .player-box { background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 24px; display: none; border: 1px solid var(--border-color); }
+    video { width: 100%; max-height: 500px; display: block; }
+    .player-details { padding: 16px; background: var(--card-bg); }
 
-    .player-box { background: #000; border-radius: 8px; overflow: hidden; border: 1px solid #222; }
-    video { width: 100%; max-height: 550px; background: #000; display: block; }
-    .player-details { padding: 16px; background: #161616; border-top: 1px solid #222; }
-    .player-details h2 { font-size: 18px; margin-bottom: 8px; }
-    .player-meta-row { display: flex; justify-content: space-between; align-items: center; color: #aaa; font-size: 13px; }
-    .action-btns button { background: #262626; border: none; color: #fff; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    .action-btns button:hover { background: #ff9900; color: #000; }
-
-    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-    .video-card { background: #161616; border-radius: 6px; overflow: hidden; border: 1px solid #222; cursor: pointer; transition: transform 0.2s; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .video-card { background: var(--card-bg); border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.2s; }
     .video-card:hover { transform: translateY(-3px); border-color: #ff9900; }
-    .thumb-placeholder { height: 140px; background: #080808; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #444; border-bottom: 1px solid #222; }
+    .thumb-placeholder { height: 130px; background: var(--input-bg); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text-sub); }
     .video-info { padding: 10px; }
     .video-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .video-sub { font-size: 12px; color: #888; display: flex; justify-content: space-between; }
-    
-    h3 { font-size: 16px; margin-bottom: 12px; border-left: 4px solid #ff9900; padding-left: 8px; }
+    .video-sub { font-size: 12px; color: var(--text-sub); display: flex; justify-content: space-between; }
+    .tag-pill { display: inline-block; background: var(--border-color); font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 4px; color: var(--text-sub); }
+
+    /* Modals */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-content { background: var(--card-bg); padding: 24px; border-radius: 8px; width: 100%; max-width: 400px; border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
+    .modal-content h3 { margin-bottom: 16px; }
+    .modal-content input, .modal-content select { width: 100%; padding: 10px; margin-bottom: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 4px; }
   </style>
 </head>
 <body>
+
   <header>
     <a href="#" class="logo"><span class="logo-black">Erezi</span><span class="logo-orange">Hub</span></a>
+    
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search videos..." oninput="filterVideos()" />
+      <input type="text" id="searchInput" placeholder="Search videos..." oninput="applyFilters()" />
       <button>🔍</button>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn btn-secondary" onclick="toggleTheme()">🌓</button>
+      <div id="userAuthControls"></div>
     </div>
   </header>
 
   <div class="container">
-    <!-- Upload Section -->
+    <!-- Creator Status Banner (Shown to normal users) -->
+    <div id="creatorBannerContainer"></div>
+
+    <!-- Creator Upload Panel (Shown only to approved uploaders & admins) -->
     <form class="upload-panel" id="uploadForm">
+      <h4 style="width:100%; margin-bottom: 4px;">📹 Creator Upload Suite</h4>
       <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/mkv" required />
       <input type="text" id="videoTitleInput" placeholder="Video Title..." required />
+      <input type="text" id="videoTagsInput" placeholder="Tags (comma separated, e.g. funny, action)" />
       <select id="videoCategoryInput">
         <option value="Trending">Trending</option>
         <option value="Entertainment">Entertainment</option>
@@ -71,78 +109,255 @@
         <option value="Vlogs">Vlogs</option>
         <option value="Sports">Sports</option>
       </select>
-      <button type="submit" id="uploadBtn">Upload Video</button>
+      <button type="submit" class="btn btn-orange" id="uploadBtn">Publish Video</button>
     </form>
 
-    <div class="main-layout">
-      <!-- Left Column: Player + Feed -->
-      <div>
-        <div class="player-box" id="playerContainer" style="display:none;">
-          <video id="mainPlayer" controls autoplay></video>
-          <div class="player-details">
-            <h2 id="activeVideoTitle"></h2>
-            <div class="player-meta-row">
-              <span id="activeVideoStats">0 views</span>
-              <div class="action-btns">
-                <button onclick="likeCurrentVideo()">👍 Like (<span id="likeCount">0</span>)</button>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- Admin Panel Modal/Trigger -->
+    <div id="adminTriggerContainer"></div>
 
-        <div style="margin-top: 24px;">
-          <h3>Categories</h3>
-          <div class="categories" id="categoryList">
-            <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
-            <button class="cat-btn" onclick="filterCategory('Trending', this)">Trending</button>
-            <button class="cat-btn" onclick="filterCategory('Entertainment', this)">Entertainment</button>
-            <button class="cat-btn" onclick="filterCategory('Music', this)">Music</button>
-            <button class="cat-btn" onclick="filterCategory('Vlogs', this)">Vlogs</button>
-            <button class="cat-btn" onclick="filterCategory('Sports', this)">Sports</button>
-          </div>
-
-          <h3>Library</h3>
-          <div class="video-grid" id="videoGrid"></div>
+    <!-- Video Player Box -->
+    <div class="player-box" id="playerContainer">
+      <video id="mainPlayer" controls autoplay></video>
+      <div class="player-details">
+        <h2 id="activeVideoTitle" style="margin-bottom:6px;"></h2>
+        <div id="activeVideoTags" style="margin-bottom:8px;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <span id="activeVideoStats" style="color:var(--text-sub); font-size:13px;">0 views</span>
+          <button class="btn btn-secondary" onclick="likeCurrentVideo()">👍 Like (<span id="likeCount">0</span>)</button>
         </div>
       </div>
+    </div>
+
+    <!-- Filter & Sort Bar -->
+    <div class="filter-sort-bar">
+      <div class="categories" id="categoryList" style="margin-bottom:0; flex:1;">
+        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
+        <button class="cat-btn" onclick="filterCategory('Trending', this)">Trending</button>
+        <button class="cat-btn" onclick="filterCategory('Entertainment', this)">Entertainment</button>
+        <button class="cat-btn" onclick="filterCategory('Music', this)">Music</button>
+        <button class="cat-btn" onclick="filterCategory('Vlogs', this)">Vlogs</button>
+        <button class="cat-btn" onclick="filterCategory('Sports', this)">Sports</button>
+      </div>
+      <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+        <option value="recent">Most Recent</option>
+        <option value="views">Most Viewed</option>
+        <option value="likes">Most Liked</option>
+      </select>
+    </div>
+
+    <!-- Video Grid -->
+    <div class="video-grid" id="videoGrid"></div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h3>Login to EreziHub</h3>
+      <input type="text" id="loginUser" placeholder="Username" />
+      <input type="password" id="loginPass" placeholder="Password" />
+      <button class="btn btn-orange" style="width:100%; margin-bottom:8px;" onclick="handleLogin()">Login</button>
+      <button class="btn btn-secondary" style="width:100%;" onclick="closeModal('loginModal')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal" id="registerModal">
+    <div class="modal-content">
+      <h3>Create Account</h3>
+      <input type="text" id="regUser" placeholder="Username" />
+      <input type="password" id="regPass" placeholder="Password" />
+      <button class="btn btn-orange" style="width:100%; margin-bottom:8px;" onclick="handleRegister()">Register</button>
+      <button class="btn btn-secondary" style="width:100%;" onclick="closeModal('registerModal')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Admin Users Review Modal -->
+  <div class="modal" id="adminModal">
+    <div class="modal-content" style="max-width: 600px;">
+      <h3>Admin Dashboard: Creator Applications</h3>
+      <div id="adminUserList" style="margin-bottom: 16px; max-height: 300px; overflow-y:auto;"></div>
+      <button class="btn btn-secondary" style="width:100%;" onclick="closeModal('adminModal')">Close Dashboard</button>
     </div>
   </div>
 
   <script>
+    let currentUser = JSON.parse(localStorage.getItem('ereziUser')) || null;
     let allVideos = [];
     let currentCategory = 'All';
     let currentFilename = '';
 
+    if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+      localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function updateUI() {
+      const authControls = document.getElementById('userAuthControls');
+      const uploadPanel = document.getElementById('uploadForm');
+      const bannerContainer = document.getElementById('creatorBannerContainer');
+      const adminTrigger = document.getElementById('adminTriggerContainer');
+
+      if (currentUser) {
+        authControls.innerHTML = `
+          <span style="font-size:12px; font-weight:bold;">${currentUser.username}</span>
+          <button class="btn btn-secondary" onclick="logout()">Logout</button>
+        `;
+
+        if (currentUser.role === 'admin') {
+          uploadPanel.style.display = 'flex';
+          bannerContainer.innerHTML = '';
+          adminTrigger.innerHTML = `<button class="btn btn-orange" style="margin-bottom:20px; width:100%;" onclick="openAdminDashboard()">⚙️ Manage Creator Applications (Admin)</button>`;
+        } else if (currentUser.uploaderStatus === 'approved') {
+          uploadPanel.style.display = 'flex';
+          bannerContainer.innerHTML = `<div class="creator-banner"><span>🎉 You are an approved Creator! You can upload videos.</span></div>`;
+          adminTrigger.innerHTML = '';
+        } else if (currentUser.uploaderStatus === 'pending') {
+          uploadPanel.style.display = 'none';
+          bannerContainer.innerHTML = `<div class="creator-banner"><span>⏳ Your application to become a creator is pending admin approval.</span></div>`;
+          adminTrigger.innerHTML = '';
+        } else {
+          uploadPanel.style.display = 'none';
+          bannerContainer.innerHTML = `
+            <div class="creator-banner">
+              <span>Want to upload videos to EreziHub like a creator?</span>
+              <button class="btn btn-orange" onclick="applyForCreator()">Apply for Uploader Status</button>
+            </div>`;
+          adminTrigger.innerHTML = '';
+        }
+      } else {
+        authControls.innerHTML = `
+          <button class="btn btn-orange" onclick="openModal('loginModal')">Login</button>
+          <button class="btn btn-secondary" onclick="openModal('registerModal')">Sign Up</button>
+        `;
+        uploadPanel.style.display = 'none';
+        bannerContainer.innerHTML = `
+          <div class="creator-banner">
+            <span>Log in and apply to become an official creator/uploader!</span>
+            <button class="btn btn-orange" onclick="openModal('loginModal')">Login to Apply</button>
+          </div>`;
+        adminTrigger.innerHTML = '';
+      }
+    }
+
+    async function handleRegister() {
+      const username = document.getElementById('regUser').value;
+      const password = document.getElementById('regPass').value;
+      const res = await fetch('/api/register', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        currentUser = data;
+        localStorage.setItem('ereziUser', JSON.stringify(currentUser));
+        closeModal('registerModal');
+        updateUI();
+      } else { alert(data.error); }
+    }
+
+    async function handleLogin() {
+      const username = document.getElementById('loginUser').value;
+      const password = document.getElementById('loginPass').value;
+      const res = await fetch('/api/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        currentUser = data;
+        localStorage.setItem('ereziUser', JSON.stringify(currentUser));
+        closeModal('loginModal');
+        updateUI();
+      } else { alert(data.error); }
+    }
+
+    function logout() {
+      currentUser = null;
+      localStorage.removeItem('ereziUser');
+      updateUI();
+    }
+
+    async function applyForCreator() {
+      if (!currentUser) return openModal('loginModal');
+      const res = await fetch('/api/apply-creator', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: currentUser.username })
+      });
+      const data = await res.json();
+      if (data.success) {
+        currentUser.uploaderStatus = 'pending';
+        localStorage.setItem('ereziUser', JSON.stringify(currentUser));
+        updateUI();
+        alert('Application submitted successfully!');
+      }
+    }
+
+    async function openAdminDashboard() {
+      openModal('adminModal');
+      const res = await fetch('/api/admin/users');
+      const users = await res.json();
+      const listDiv = document.getElementById('adminUserList');
+      
+      listDiv.innerHTML = users.map(u => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-color);">
+          <div>
+            <strong>${u.username}</strong> (${u.role}) — Status: <em>${u.uploaderStatus}</em>
+          </div>
+          <div>
+            ${u.uploaderStatus === 'pending' ? `
+              <button class="btn btn-orange" onclick="updateUserStatus('${u.username}', 'approved')">Approve</button>
+              <button class="btn btn-secondary" onclick="updateUserStatus('${u.username}', 'rejected')">Reject</button>
+            ` : `<span>${u.uploaderStatus}</span>`}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function updateUserStatus(username, status) {
+      await fetch('/api/admin/update-status', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, status })
+      });
+      openAdminDashboard();
+    }
+
     async function loadVideos() {
       const res = await fetch('/api/videos');
       allVideos = await res.json();
-      renderVideos(allVideos);
+      applyFilters();
     }
 
     function renderVideos(videos) {
       const grid = document.getElementById('videoGrid');
       if (videos.length === 0) {
-        grid.innerHTML = '<p style="color:#666; grid-column: 1/-1;">No videos found.</p>';
+        grid.innerHTML = '<p style="color:var(--text-sub);">No videos found.</p>';
         return;
       }
       grid.innerHTML = videos.map(v => `
-        <div class="video-card" onclick="playVideo('${v.filename}', '${v.title.replace(/'/g, "\\'")}', ${v.views}, ${v.likes})">
+        <div class="video-card" onclick="playVideo('${v.filename}', '${v.title.replace(/'/g, "\\'")}', ${v.views}, ${v.likes}, '${encodeURIComponent(JSON.stringify(v.tags))}')">
           <div class="thumb-placeholder">▶</div>
           <div class="video-info">
             <div class="video-title">${v.title}</div>
+            <div style="margin: 4px 0;">${v.tags.map(t => `<span class="tag-pill">#${t}</span>`).join('')}</div>
             <div class="video-sub">
               <span>${v.views} views</span>
-              <span>${v.category}</span>
+              <span>By ${v.uploader}</span>
             </div>
           </div>
         </div>
       `).join('');
     }
 
-    async function playVideo(filename, title, views, likes) {
+    async function playVideo(filename, title, views, likes, tagsEncoded) {
       currentFilename = filename;
+      const tags = JSON.parse(decodeURIComponent(tagsEncoded));
       document.getElementById('playerContainer').style.display = 'block';
       document.getElementById('activeVideoTitle').innerText = title;
+      document.getElementById('activeVideoTags').innerHTML = tags.map(t => `<span class="tag-pill">#${t}</span>`).join('');
       document.getElementById('activeVideoStats').innerText = `${views + 1} views`;
       document.getElementById('likeCount').innerText = likes;
       document.getElementById('mainPlayer').src = `/api/stream/${encodeURIComponent(filename)}`;
@@ -155,9 +370,7 @@
       if (!currentFilename) return;
       const res = await fetch(`/api/like/${currentFilename}`, { method: 'POST' });
       const data = await res.json();
-      if (data.success) {
-        document.getElementById('likeCount').innerText = data.likes;
-      }
+      if (data.success) document.getElementById('likeCount').innerText = data.likes;
     }
 
     function filterCategory(cat, btn) {
@@ -167,46 +380,30 @@
       applyFilters();
     }
 
-    function filterVideos() {
-      applyFilters();
-    }
-
     function applyFilters() {
       const query = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allVideos.filter(v => {
+      const sortBy = document.getElementById('sortSelect').value;
+
+      let filtered = allVideos.filter(v => {
         const matchesCat = currentCategory === 'All' || v.category === currentCategory;
-        const matchesQuery = v.title.toLowerCase().includes(query);
+        const matchesQuery = v.title.toLowerCase().includes(query) || v.tags.some(t => t.toLowerCase().includes(query));
         return matchesCat && matchesQuery;
       });
+
+      if (sortBy === 'recent') {
+        filtered.sort((a, b) => b.createdAt - a.createdAt);
+      } else if (sortBy === 'views') {
+        filtered.sort((a, b) => b.views - a.views);
+      } else if (sortBy === 'likes') {
+        filtered.sort((a, b) => b.likes - a.likes);
+      }
+
       renderVideos(filtered);
     }
 
     document.getElementById('uploadForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const file = document.getElementById('videoFileInput').files[0];
-      const title = document.getElementById('videoTitleInput').value;
-      const category = document.getElementById('videoCategoryInput').value;
-      
-      const formData = new FormData();
-      formData.append('video', file);
-      formData.append('title', title);
-      formData.append('category', category);
-
-      const btn = document.getElementById('uploadBtn');
-      btn.innerText = 'Uploading...';
-      btn.disabled = true;
-
-      await fetch('/api/upload', { method: 'POST', body: formData });
-      
-      document.getElementById('videoTitleInput').value = '';
-      document.getElementById('videoFileInput').value = '';
-      btn.innerText = 'Upload Video';
-      btn.disabled = false;
-      
-      loadVideos();
-    });
-
-    loadVideos();
+  Videos();
   </script>
 </body>
     </html>
