@@ -30,7 +30,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
     body { background-color: var(--bg-main); color: var(--text-main); font-size: 14px; min-height: 100vh; }
 
-    /* Modal Overlay Fix */
+    /* Age Gate Modal */
     #ageGateModal { 
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
       background: #000000; z-index: 9999999; display: flex; 
@@ -43,7 +43,7 @@
     .age-box h1 { font-size: 26px; margin-bottom: 16px; font-weight: 900; color: #fff; }
     .age-box p { color: #aaa; margin-bottom: 24px; line-height: 1.5; font-size: 13px; }
 
-    /* Universal Interactive Buttons */
+    /* Buttons */
     .btn { 
       padding: 8px 14px; border-radius: 3px; font-weight: bold; 
       cursor: pointer !important; border: none; font-size: 13px; 
@@ -53,7 +53,7 @@
     .btn-orange { background: var(--accent); color: #000000; }
     .btn-dark { background: var(--border-color); color: var(--text-main); }
 
-    /* Header Layout */
+    /* Header & Navigation */
     header { background: var(--bg-header); border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
     .header-top { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; max-width: 1400px; margin: 0 auto; gap: 12px; flex-wrap: wrap; }
     
@@ -65,7 +65,47 @@
     .search-box input { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 14px; border-radius: 3px 0 0 3px; outline: none; }
     .search-box button { background: var(--accent); border: none; color: #000000; padding: 0 16px; font-weight: bold; cursor: pointer; border-radius: 0 3px 3px 0; }
 
-    .nav-btns { display: flex; align-items: center; gap: 8px; }
+    .nav-btns { display: flex; align-items: center; gap: 8px; position: relative; }
+
+    /* Three Dot Dropdown Menu */
+    .menu-container { position: relative; display: inline-block; }
+    .dots-btn {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      font-size: 20px;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      width: 220px;
+      z-index: 10000;
+      overflow: hidden;
+    }
+    .dropdown-menu.show { display: block; }
+    .dropdown-item {
+      padding: 12px 16px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: bold;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .dropdown-item:last-child { border-bottom: none; }
+    .dropdown-item:hover { background: var(--border-color); color: var(--accent); }
 
     .sub-nav { background: #000000; border-bottom: 1px solid var(--border-color); }
     .sub-nav-inner { max-width: 1400px; margin: 0 auto; display: flex; gap: 18px; padding: 10px 20px; overflow-x: auto; }
@@ -74,7 +114,8 @@
 
     .container { max-width: 1400px; margin: 20px auto; padding: 0 16px; }
 
-    .upload-panel { background: var(--bg-card); padding: 20px; border-radius: 4px; border: 1px solid var(--border-color); margin-bottom: 24px; display: none; flex-wrap: wrap; gap: 12px; }
+    /* Creator Studio Panel */
+    .upload-panel { background: var(--bg-card); padding: 20px; border-radius: 4px; border: 1px solid var(--accent); margin-bottom: 24px; display: none; flex-wrap: wrap; gap: 12px; }
     .upload-panel input, .upload-panel select { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 3px; flex: 1; min-width: 200px; outline: none; }
 
     .sort-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
@@ -83,6 +124,7 @@
     .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
     .video-card { background: var(--bg-card); border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color); cursor: pointer; }
 
+    /* Modals */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100000; justify-content: center; align-items: center; }
     .modal-body { background: var(--bg-card); padding: 24px; border-radius: 4px; width: 90%; max-width: 400px; border: 1px solid var(--border-color); color: var(--text-main); }
     .modal-body input { width: 100%; padding: 10px; margin-bottom: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 3px; }
@@ -111,11 +153,21 @@
         <input type="text" id="searchInput" placeholder="Search videos..." />
         <button id="searchBtn">Search</button>
       </div>
+
       <div class="nav-btns">
-        <button type="button" id="themeToggleBtn" class="btn btn-dark">🌓 Theme</button>
         <div id="authButtons" style="display:inline-flex; gap:8px;"></div>
+        
+        <!-- Three Dots Dropdown Trigger -->
+        <div class="menu-container">
+          <button type="button" id="dotsMenuBtn" class="dots-btn">⋮</button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <div class="dropdown-item" id="themeToggleBtn">🌓 Toggle Theme</div>
+            <div id="dynamicMenuItems"></div>
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="sub-nav">
       <div class="sub-nav-inner">
         <a href="#" class="active" data-cat="All">HOME</a>
@@ -178,8 +230,17 @@
     </div>
   </div>
 
+  <!-- Admin Modal -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-body" style="max-width:600px;">
+      <h2 style="margin-bottom:16px;">Admin Creator Dashboard</h2>
+      <div id="adminUserList" style="max-height:300px; overflow-y:auto; margin-bottom:16px;"></div>
+      <button type="button" class="btn btn-dark" id="closeAdminBtn" style="width:100%;">Close</button>
+    </div>
+  </div>
+
   <script>
-    // --- 1. ABSOLUTE DIRECT STATE INITIALIZATION ---
+    // Theme Init
     function applySavedTheme() {
       if (localStorage.getItem('ereziTheme') === 'light') {
         document.documentElement.classList.add('light-mode');
@@ -191,18 +252,29 @@
     }
     applySavedTheme();
 
+    // Age Gate Check
     if (localStorage.getItem('ageVerified') === 'true') {
       document.getElementById('ageGateModal').style.display = 'none';
     }
 
     let currentUser = JSON.parse(localStorage.getItem('ereziUser')) || null;
 
-    // --- 2. DELEGATED CLICK LISTENERS (CANNOT BE BLOCKED OR UNBOUND) ---
+    // --- DELEGATED GLOBAL EVENTS ---
     window.addEventListener('click', function(e) {
-      // Age Gate Enter
+      const dropMenu = document.getElementById('dropdownMenu');
+
+      // Age Gate
       if (e.target && e.target.id === 'enterBtn') {
         document.getElementById('ageGateModal').style.display = 'none';
         localStorage.setItem('ageVerified', 'true');
+      }
+
+      // Three Dots Menu Toggle
+      if (e.target && (e.target.id === 'dotsMenuBtn' || e.target.closest('#dotsMenuBtn'))) {
+        dropMenu.classList.toggle('show');
+        return;
+      } else if (dropMenu && !e.target.closest('.menu-container')) {
+        dropMenu.classList.remove('show');
       }
 
       // Theme Toggle
@@ -210,41 +282,72 @@
         const isLight = document.body.classList.toggle('light-mode');
         document.documentElement.classList.toggle('light-mode', isLight);
         localStorage.setItem('ereziTheme', isLight ? 'light' : 'dark');
+        dropMenu.classList.remove('show');
       }
 
-      // Modals Triggering
+      // Apply Creator Status (from 3-dot menu)
+      if (e.target && (e.target.id === 'applyCreatorBtn' || e.target.closest('#applyCreatorBtn'))) {
+        dropMenu.classList.remove('show');
+        handleApplyCreator();
+      }
+
+      // Open Admin Dashboard (from 3-dot menu)
+      if (e.target && (e.target.id === 'adminDashboardBtn' || e.target.closest('#adminDashboardBtn'))) {
+        dropMenu.classList.remove('show');
+        openAdminDashboard();
+      }
+
+      // Modals
       if (e.target && e.target.id === 'openLoginBtn') document.getElementById('loginModal').style.display = 'flex';
       if (e.target && e.target.id === 'closeLoginBtn') document.getElementById('loginModal').style.display = 'none';
       if (e.target && e.target.id === 'openRegBtn') document.getElementById('registerModal').style.display = 'flex';
       if (e.target && e.target.id === 'closeRegBtn') document.getElementById('registerModal').style.display = 'none';
+      if (e.target && e.target.id === 'closeAdminBtn') document.getElementById('adminModal').style.display = 'none';
 
-      // Login Action
+      // Submit Actions
       if (e.target && e.target.id === 'submitLoginBtn') handleLogin();
-      // Register Action
       if (e.target && e.target.id === 'submitRegBtn') handleRegister();
-      // Logout Action
-      if (e.target && e.target.id === 'logoutBtn') handleLogout();
+      if (e.target && (e.target.id === 'logoutBtn' || e.target.closest('#logoutBtn'))) {
+        dropMenu.classList.remove('show');
+        handleLogout();
+      }
     });
 
-    // --- 3. AUTHENTICATION ENGINE ---
+    // --- AUTHENTICATION & MENU RENDERING ---
     function renderAuthUI() {
       const authDiv = document.getElementById('authButtons');
       const uploadPanel = document.getElementById('uploadForm');
+      const dynamicMenu = document.getElementById('dynamicMenuItems');
 
       if (currentUser) {
-        authDiv.innerHTML = `
-          <span style="font-weight:bold; padding: 8px;">${currentUser.username}</span>
-          <button type="button" id="logoutBtn" class="btn btn-dark">Log Out</button>
-        `;
-        if (currentUser.role === 'admin' || currentUser.uploaderStatus === 'approved') {
+        authDiv.innerHTML = `<span style="font-weight:bold; padding: 6px 10px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:4px;">👤 ${currentUser.username}</span>`;
+
+        let menuItemsHTML = '';
+
+        if (currentUser.role === 'admin') {
           uploadPanel.style.display = 'flex';
+          menuItemsHTML += `<div class="dropdown-item" id="adminDashboardBtn">⚙️ Creator Dashboard</div>`;
+        } else if (currentUser.uploaderStatus === 'approved') {
+          uploadPanel.style.display = 'flex';
+          menuItemsHTML += `<div class="dropdown-item" style="color:var(--accent);">🎉 Approved Creator</div>`;
+        } else if (currentUser.uploaderStatus === 'pending') {
+          uploadPanel.style.display = 'none';
+          menuItemsHTML += `<div class="dropdown-item" style="color:#aaa;">⏳ Uploader Status Pending</div>`;
+        } else {
+          uploadPanel.style.display = 'none';
+          menuItemsHTML += `<div class="dropdown-item" id="applyCreatorBtn">✋ Request Uploader Status</div>`;
         }
+
+        menuItemsHTML += `<div class="dropdown-item" id="logoutBtn" style="color:#ff4444;">🚪 Log Out</div>`;
+        dynamicMenu.innerHTML = menuItemsHTML;
+
       } else {
         authDiv.innerHTML = `
           <button type="button" id="openLoginBtn" class="btn btn-orange">Log In</button>
           <button type="button" id="openRegBtn" class="btn btn-dark">Sign Up</button>
         `;
         uploadPanel.style.display = 'none';
+        dynamicMenu.innerHTML = `<div class="dropdown-item" id="openLoginBtn">🔑 Log In to Request Uploader Status</div>`;
       }
     }
 
@@ -265,12 +368,8 @@
           localStorage.setItem('ereziUser', JSON.stringify(currentUser));
           document.getElementById('loginModal').style.display = 'none';
           renderAuthUI();
-        } else {
-          alert(data.error || 'Invalid credentials');
-        }
-      } catch(err) {
-        alert('Server connectivity issue. Try again.');
-      }
+        } else { alert(data.error || 'Invalid credentials'); }
+      } catch(err) { alert('Server error'); }
     }
 
     async function handleRegister() {
@@ -289,9 +388,50 @@
         localStorage.setItem('ereziUser', JSON.stringify(currentUser));
         document.getElementById('registerModal').style.display = 'none';
         renderAuthUI();
-      } else {
-        alert(data.error);
+      } else { alert(data.error); }
+    }
+
+    async function handleApplyCreator() {
+      if (!currentUser) return document.getElementById('loginModal').style.display = 'flex';
+      const res = await fetch('/api/apply-creator', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: currentUser.username })
+      });
+      const data = await res.json();
+      if (data.success) {
+        currentUser.uploaderStatus = 'pending';
+        localStorage.setItem('ereziUser', JSON.stringify(currentUser));
+        renderAuthUI();
+        alert('Application submitted! Pending admin review.');
       }
+    }
+
+    async function openAdminDashboard() {
+      document.getElementById('adminModal').style.display = 'flex';
+      const res = await fetch('/api/admin/users');
+      const users = await res.json();
+      const listDiv = document.getElementById('adminUserList');
+      
+      listDiv.innerHTML = users.map(u => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-color);">
+          <div><strong>${u.username}</strong> (${u.uploaderStatus})</div>
+          <div>
+            ${u.uploaderStatus === 'pending' ? `
+              <button class="btn btn-orange" onclick="updateUserStatus('${u.username}', 'approved')">Approve</button>
+              <button class="btn btn-dark" onclick="updateUserStatus('${u.username}', 'rejected')">Reject</button>
+            ` : `<span>${u.uploaderStatus}</span>`}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function updateUserStatus(username, status) {
+      await fetch('/api/admin/update-status', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, status })
+      });
+      openAdminDashboard();
     }
 
     function handleLogout() {
@@ -300,7 +440,6 @@
       renderAuthUI();
     }
 
-    // Init UI
     renderAuthUI();
   </script>
 </body>
