@@ -33,7 +33,7 @@
     /* Age Verification Modal */
     #ageGateModal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000000; z-index: 99999; display: flex; align-items: center; justify-content: center; text-align: center; }
     .age-box { background: #161616; padding: 40px; border-radius: 8px; border: 1px solid #ff9900; max-width: 480px; width: 90%; }
-    .age-box h1 { font-size: 28px; margin-bottom: 16px; font-weight: 900; }
+    .age-box h1 { font-size: 26px; margin-bottom: 16px; font-weight: 900; color: #fff; }
     .age-box p { color: #aaa; margin-bottom: 24px; line-height: 1.5; font-size: 13px; }
 
     /* Header Navigation */
@@ -49,7 +49,7 @@
     .search-box button { background: var(--accent); border: none; color: #000000; padding: 0 16px; font-weight: bold; cursor: pointer; border-radius: 0 3px 3px 0; }
 
     .nav-btns { display: flex; align-items: center; gap: 10px; }
-    .btn { padding: 8px 14px; border-radius: 3px; font-weight: bold; cursor: pointer; border: none; font-size: 13px; text-decoration: none; display: inline-block; }
+    .btn { padding: 8px 14px; border-radius: 3px; font-weight: bold; cursor: pointer; border: none; font-size: 13px; text-decoration: none; display: inline-block; text-align: center; }
     .btn-orange { background: var(--accent); color: #000000; }
     .btn-dark { background: var(--border-color); color: var(--text-main); }
     .btn-orange:hover { opacity: 0.9; }
@@ -77,7 +77,7 @@
     .player-info { padding: 16px; background: var(--bg-card); }
     .tag-pill { display: inline-block; background: var(--border-color); color: var(--accent); padding: 3px 8px; border-radius: 3px; font-size: 11px; margin-right: 6px; text-decoration: none; }
 
-    /* Pornhub Video Grid Style */
+    /* Video Grid */
     .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
     .video-card { background: var(--bg-card); border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.15s; }
     .video-card:hover { transform: translateY(-3px); border-color: var(--accent); }
@@ -98,16 +98,16 @@
 </head>
 <body>
 
-  <!-- Age Verification Gateway -->
+  <!-- Age Verification Gateway (Pure HTML anchor form to prevent click bugs) -->
   <div id="ageGateModal">
     <div class="age-box">
       <div class="logo" style="justify-content: center; margin-bottom: 20px;">
         <span class="blk">Erezi</span><span class="org">Hub</span>
       </div>
-      <h1>THIS WEBSITE CONTAINS AGE-RESTRICTED CONTENT</h1>
-      <p>You must be at least 18 years old or the age of majority in your jurisdiction to enter. By clicking enter, you confirm that you agree to our terms.</p>
-      <button class="btn btn-orange" style="width: 100%; padding: 14px; font-size: 16px;" onclick="acceptAgeGate()">I AM 18 OR OLDER - ENTER</button>
-      <button class="btn btn-dark" style="width: 100%; padding: 10px; margin-top: 10px;" onclick="window.location.href='https://google.com'">I AM UNDER 18 - EXIT</button>
+      <h1>AGE RESTRICTED CONTENT</h1>
+      <p>You must be 18 years or older to enter. By entering, you agree that you are of legal age.</p>
+      <a href="javascript:void(0)" onclick="acceptAgeGate()" class="btn btn-orange" style="width: 100%; padding: 14px; font-size: 15px; display: block; margin-bottom: 10px; box-sizing: border-box;">I AM 18 OR OLDER - ENTER</a>
+      <a href="https://google.com" class="btn btn-dark" style="width: 100%; padding: 10px; display: block; box-sizing: border-box; text-decoration: none;">I AM UNDER 18 - EXIT</a>
     </div>
   </div>
 
@@ -117,7 +117,7 @@
       <a href="#" class="logo"><span class="blk">Erezi</span><span class="org">Hub</span></a>
       
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search 1,000+ videos..." oninput="applyFilters()" />
+        <input type="text" id="searchInput" placeholder="Search videos..." oninput="applyFilters()" />
         <button onclick="applyFilters()">Search</button>
       </div>
 
@@ -140,10 +140,8 @@
   </header>
 
   <div class="container">
-    <!-- Creator Status Callout -->
     <div id="bannerSection"></div>
 
-    <!-- Creator Upload Form -->
     <form class="upload-panel" id="uploadForm">
       <h3 style="width:100%; color:var(--accent);">📹 Creator Upload Studio</h3>
       <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/mkv" required />
@@ -162,7 +160,6 @@
 
     <div id="adminControlArea"></div>
 
-    <!-- Active Video Player -->
     <div class="player-section" id="playerContainer">
       <video id="mainPlayer" controls autoplay></video>
       <div class="player-info">
@@ -175,7 +172,6 @@
       </div>
     </div>
 
-    <!-- Sort Bar & Header -->
     <div class="sort-header">
       <h2 id="currentCategoryHeading">All Videos</h2>
       <div>
@@ -188,14 +184,13 @@
       </div>
     </div>
 
-    <!-- Video Grid -->
     <div class="video-grid" id="videoGrid"></div>
   </div>
 
   <!-- Login Modal -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-body">
-      <h2 style="margin-bottom:16px;">Log In to EreziHub</h2>
+      <h2 style="margin-bottom:16px;">Log In</h2>
       <input type="text" id="loginUser" placeholder="Username" />
       <input type="password" id="loginPass" placeholder="Password" />
       <button class="btn btn-orange" style="width:100%; margin-bottom:8px;" onclick="handleLogin()">Log In</button>
@@ -214,7 +209,7 @@
     </div>
   </div>
 
-  <!-- Admin Dashboard Modal -->
+  <!-- Admin Modal -->
   <div class="modal-overlay" id="adminModal">
     <div class="modal-body" style="max-width:600px;">
       <h2 style="margin-bottom:16px;">Admin: Manage Applications</h2>
@@ -229,7 +224,7 @@
     let currentCategory = 'All';
     let currentFilename = '';
 
-    // Check Age Gate
+    // Check Age Gate immediately on load
     if (localStorage.getItem('ageVerified') === 'true') {
       document.getElementById('ageGateModal').style.display = 'none';
     }
@@ -239,15 +234,13 @@
       document.getElementById('ageGateModal').style.display = 'none';
     }
 
-    // Dynamic Light / Dark Mode Toggle
     if (localStorage.getItem('theme') === 'light') {
       document.body.classList.add('light-mode');
     }
 
     function toggleTheme() {
       document.body.classList.toggle('light-mode');
-      const isLight = document.body.classList.contains('light-mode');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -410,4 +403,7 @@
       `).join('');
     }
 
-    async func
+    async function playVideo(filename, title, views, likes, tagsEncoded) {
+      currentFilename = filename;
+      const tags = JSON.parse(decodeURIComponent(tagsEncoded));
+      d
