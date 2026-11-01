@@ -28,29 +28,17 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
-    body { background-color: var(--bg-main); color: var(--text-main); font-size: 14px; }
+    body { background-color: var(--bg-main); color: var(--text-main); font-size: 14px; transition: background 0.2s, color 0.2s; }
 
     /* Age Verification Modal */
     #ageGateModal { 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100vw; 
-      height: 100vh; 
-      background: #000000; 
-      z-index: 999999; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      text-align: center; 
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+      background: #000000; z-index: 999999; display: flex; 
+      align-items: center; justify-content: center; text-align: center; 
     }
     .age-box { 
-      background: #161616; 
-      padding: 40px; 
-      border-radius: 8px; 
-      border: 1px solid #ff9900; 
-      max-width: 480px; 
-      width: 90%; 
+      background: #161616; padding: 40px; border-radius: 8px; 
+      border: 1px solid #ff9900; max-width: 480px; width: 90%; 
     }
     .age-box h1 { font-size: 26px; margin-bottom: 16px; font-weight: 900; color: #fff; }
     .age-box p { color: #aaa; margin-bottom: 24px; line-height: 1.5; font-size: 13px; }
@@ -73,7 +61,7 @@
     .search-box input { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 14px; border-radius: 3px 0 0 3px; outline: none; }
     .search-box button { background: var(--accent); border: none; color: #000000; padding: 0 16px; font-weight: bold; cursor: pointer; border-radius: 0 3px 3px 0; }
 
-    .nav-btns { display: flex; align-items: center; gap: 10px; }
+    .nav-btns { display: flex; align-items: center; gap: 8px; }
 
     /* Sub-nav Bar */
     .sub-nav { background: #000000; border-bottom: 1px solid var(--border-color); }
@@ -90,7 +78,7 @@
     .upload-panel input, .upload-panel select { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 3px; flex: 1; min-width: 200px; outline: none; }
 
     .sort-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-    .sort-header h2 { font-size: 18px; text-transform: uppercase; border-left: 4px solid var(--accent); padding-left: 8px; }
+    .sort-header h2 { font-size: 18px; text-transform: uppercase; border-left: 4px solid var(--accent); padding-left: 8px; color: var(--text-main); }
 
     /* Video Player */
     .player-section { background: #000000; border-radius: 4px; overflow: hidden; margin-bottom: 24px; display: none; border: 1px solid var(--border-color); }
@@ -116,6 +104,12 @@
     .modal-body { background: var(--bg-card); padding: 24px; border-radius: 4px; width: 90%; max-width: 400px; border: 1px solid var(--border-color); }
     .modal-body input { width: 100%; padding: 10px; margin-bottom: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 3px; }
   </style>
+  <script>
+    // Immediate Theme Initialization to avoid flash or broken state
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  </script>
 </head>
 <body>
 
@@ -128,10 +122,8 @@
       <h1>AGE RESTRICTED CONTENT</h1>
       <p>You must be 18 years or older to enter. By entering, you agree that you are of legal age.</p>
       
-      <!-- Direct Inline Hide Action -->
       <button 
         type="button" 
-        id="enterSiteBtn" 
         class="btn btn-orange" 
         style="width: 100%; padding: 16px; font-size: 16px; margin-bottom: 12px; cursor: pointer;"
         onclick="document.getElementById('ageGateModal').style.display='none'; localStorage.setItem('ageVerified', 'true');"
@@ -155,7 +147,10 @@
 
       <div class="nav-btns">
         <button class="btn btn-dark" onclick="toggleTheme()" id="themeBtn">🌓 Theme</button>
-        <div id="authButtons"></div>
+        <div id="authButtons" style="display:inline-flex; gap:8px;">
+          <button class="btn btn-orange" onclick="openModal('loginModal')">Log In</button>
+          <button class="btn btn-dark" onclick="openModal('registerModal')">Sign Up</button>
+        </div>
       </div>
     </div>
 
@@ -222,7 +217,7 @@
   <!-- Login Modal -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-body">
-      <h2 style="margin-bottom:16px;">Log In</h2>
+      <h2 style="margin-bottom:16px; color:var(--text-main);">Log In</h2>
       <input type="text" id="loginUser" placeholder="Username" />
       <input type="password" id="loginPass" placeholder="Password" />
       <button class="btn btn-orange" style="width:100%; margin-bottom:8px;" onclick="handleLogin()">Log In</button>
@@ -233,7 +228,7 @@
   <!-- Sign Up Modal -->
   <div class="modal-overlay" id="registerModal">
     <div class="modal-body">
-      <h2 style="margin-bottom:16px;">Create Account</h2>
+      <h2 style="margin-bottom:16px; color:var(--text-main);">Create Account</h2>
       <input type="text" id="regUser" placeholder="Username" />
       <input type="password" id="regPass" placeholder="Password" />
       <button class="btn btn-orange" style="width:100%; margin-bottom:8px;" onclick="handleRegister()">Register</button>
@@ -244,7 +239,7 @@
   <!-- Admin Modal -->
   <div class="modal-overlay" id="adminModal">
     <div class="modal-body" style="max-width:600px;">
-      <h2 style="margin-bottom:16px;">Admin: Manage Applications</h2>
+      <h2 style="margin-bottom:16px; color:var(--text-main);">Admin: Manage Applications</h2>
       <div id="adminUserList" style="max-height:300px; overflow-y:auto; margin-bottom:16px;"></div>
       <button class="btn btn-dark" style="width:100%;" onclick="closeModal('adminModal')">Close</button>
     </div>
@@ -256,18 +251,19 @@
     let currentCategory = 'All';
     let currentFilename = '';
 
-    // Check saved age gate on load
     if (localStorage.getItem('ageVerified') === 'true') {
       document.getElementById('ageGateModal').style.display = 'none';
     }
 
+    // Theme Switcher Logic
     if (localStorage.getItem('theme') === 'light') {
       document.body.classList.add('light-mode');
     }
 
     function toggleTheme() {
       document.body.classList.toggle('light-mode');
-      localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+      const isLight = document.body.classList.contains('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -281,7 +277,7 @@
 
       if (currentUser) {
         authDiv.innerHTML = `
-          <span style="font-weight:bold; font-size:12px;">${currentUser.username}</span>
+          <span style="font-weight:bold; font-size:12px; margin-right:4px; color:var(--text-main);">${currentUser.username}</span>
           <button class="btn btn-dark" onclick="logout()">Log Out</button>
         `;
 
@@ -416,19 +412,4 @@
       grid.innerHTML = videos.map(v => `
         <div class="video-card" onclick="playVideo('${v.filename}', '${v.title.replace(/'/g, "\\'")}', ${v.views}, ${v.likes}, '${encodeURIComponent(JSON.stringify(v.tags))}')">
           <div class="thumbnail-box">
-            <span class="play-icon">▶</span>
-            <span class="duration-badge">${v.duration}</span>
-          </div>
-          <div class="card-details">
-            <div class="card-title">${v.title}</div>
-            <div class="card-meta">
-              <span>${v.views} views</span>
-              <span>By ${v.uploader}</span>
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    async function playVideo(filename, title, views, likes, tagsEncoded) {
   
